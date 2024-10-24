@@ -1,0 +1,182 @@
+{
+  "info": {
+    "name": "Laravel Location API",
+    "_postman_id": "d1c2b3a4-5678-90ab-cdef-1234567890ab",
+    "description": "Collection untuk menguji API Lokasi pada aplikasi Laravel.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/v1/login",
+          "host": ["{{base_url}}"],
+          "path": ["v1", "login"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    var jsonData = pm.response.json();",
+              "    pm.environment.set(\"access_token\", jsonData.access_token);",
+              "}",
+              "",
+              "// Log response for debugging",
+              "console.log(jsonData);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get User",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/v1/user",
+          "host": ["{{base_url}}"],
+          "path": ["v1", "user"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Provinces",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/v1/locations/provinces",
+          "host": ["{{base_url}}"],
+          "path": ["v1", "locations", "provinces"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Cities by Province ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/v1/locations/cities/{{province_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["v1", "locations", "cities", "{{province_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Districts by City ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/v1/locations/districts/{{city_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["v1", "locations", "districts", "{{city_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Villages by District ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/v1/locations/villages/{{district_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["v1", "locations", "villages", "{{district_id}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api",
+      "type": "string",
+      "description": "Base URL untuk API Laravel Anda."
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string",
+      "description": "Token akses Bearer untuk autentikasi."
+    },
+    {
+      "key": "province_id",
+      "value": "1",
+      "type": "string",
+      "description": "ID Provinsi untuk menguji endpoint cities."
+    },
+    {
+      "key": "city_id",
+      "value": "1",
+      "type": "string",
+      "description": "ID Kota untuk menguji endpoint districts."
+    },
+    {
+      "key": "district_id",
+      "value": "1",
+      "type": "string",
+      "description": "ID Kecamatan untuk menguji endpoint villages."
+    }
+  ]
+}
